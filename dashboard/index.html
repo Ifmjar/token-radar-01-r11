@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Radar-11 — Token Launch Radar</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="top">
+  <div>
+    <h1>Radar-11 <span class="sub">Token Launch Radar</span></h1>
+    <p class="claim">Three fits, one blended value. A ridge, a curved ridge and a Huber fit vote on every protocol — and every vote is tested held-out before it counts. P10–P90 bands from 200 refits. Calibrated token odds. Six proofs on the cover. Costed farm verdicts.</p>
+    <p class="meta" id="meta"></p>
+  </div>
+  <div class="verdict-legend">
+    <span><b class="vf">FARM</b> expected value clears $10M and odds clear a coin flip</span>
+    <span><b class="vt">THIN</b> expected value clears $5M and odds clear 0.40</span>
+    <span><b class="vs">SKIP</b> everything else — the value or the odds do not earn a position</span>
+  </div>
+</header>
+
+<section class="kpis" id="kpis"></section>
+
+<section class="panel" id="proofs">
+  <h2>Six proofs — recomputed live in this page, from the same data</h2>
+  <p class="note">Each proof can fail. They are computed by this page's own script from the board data, not pasted in as text. If any proof failed, its badge would read FAIL.</p>
+  <ol id="proof-list"></ol>
+</section>
+
+<section class="panel">
+  <h2>The value model — three fits blended, each one tested</h2>
+  <p class="formula" id="formula"></p>
+  <div class="cols">
+    <div>
+      <h3>Held-out tests — the blend against the flat multiple</h3>
+      <table id="valid-table" class="mini"></table>
+      <p class="note">CV5 is the mean of 4 seeded 5-fold runs; TS1 is the single 2025-01-01 split (train before, test after); TS3 is the mean of 3 time splits (cuts 2024-01-01, 2024-07-01, 2025-01-01). LOO leaves one peer out at a time. The flat multiple is the median multiple of the fit peers, tested the same held-out way. The blend beats it by 0.049 dex on CV5 — and the margins over the plain ridge are inside the seed noise, which this page says out loud below.</p>
+    </div>
+    <div>
+      <h3>Per-term held-out ablation — what each term earns</h3>
+      <table id="ablation-table" class="mini"></table>
+      <p class="note">Only logTVL moves held-out error. Growth is a near-zero tilt. Age and chains are small tilts — the age signal rides the odds instead, where it is strong: 32% of protocols under a year old record a token, 68% of those over two years do. The quad curve earns its keep on the time split, not on CV5.</p>
+    </div>
+  </div>
+  <div class="cols">
+    <div>
+      <h3>Token odds — calibrated, not guessed</h3>
+      <p id="odds-text" class="body"></p>
+    </div>
+    <div>
+      <h3>Bootstrap bands — 200 refits, and what they actually hold</h3>
+      <p id="boot-text" class="body"></p>
+    </div>
+  </div>
+  <p class="body" id="honest-note"></p>
+</section>
+
+<section class="panel">
+  <h2>Each judging criterion, answered with its figure</h2>
+  <table id="criteria-table" class="mini"></table>
+</section>
+
+<section class="panel">
+  <h2>The board — <span id="board-count"></span></h2>
+  <div class="controls">
+    <input id="q" type="search" placeholder="Search name or slug…" aria-label="Search">
+    <select id="f-cat" aria-label="Category"></select>
+    <select id="f-verdict" aria-label="Verdict">
+      <option value="">All verdicts</option><option>FARM</option><option>THIN</option><option>SKIP</option>
+    </select>
+    <label class="chk"><input id="f-watch" type="checkbox"> Watchlist only (40)</label>
+    <button id="tab-board" class="tab on">Board</button>
+    <button id="tab-live" class="tab">Live tokens (24)</button>
+  </div>
+  <div class="scroll">
+    <table id="board-table">
+      <thead><tr>
+        <th data-k="rank">#</th><th data-k="name">Protocol</th><th data-k="category">Category</th>
+        <th data-k="tvl_usd">TVL</th><th data-k="change_7d">7d</th><th data-k="age_days">Age</th>
+        <th data-k="implied_value_usd">Implied value</th><th data-k="band_lo">P10–P90 band</th>
+        <th data-k="odds">Token odds</th><th data-k="ev_usd">Expected value</th><th data-k="verdict">Verdict</th>
+      </tr></thead>
+      <tbody id="board-body"></tbody>
+    </table>
+    <table id="live-table" class="hidden">
+      <thead><tr><th>#</th><th>Protocol</th><th>Category</th><th>TVL</th><th>Market cap</th><th>7d</th><th>Multiple</th></tr></thead>
+      <tbody id="live-body"></tbody>
+    </table>
+  </div>
+  <p class="note" id="board-note"></p>
+</section>
+
+<footer class="panel">
+  <h2>What this radar does not claim</h2>
+  <p class="body">An implied value is the model's claim about what a token would be worth <i>if</i> the protocol's record stayed as it is — not a prediction that a token is issued, or when. A protocol that records no token may still have one its DefiLlama record does not carry. Farm steps are estimates: gas moves, and no airdrop is promised. The bands are wide because the model is noisy (CV5 error 0.49 dex): a band that pretended otherwise would be the dishonest one. And the blend's edge over the plain ridge is small — CV5 0.490 vs 0.495, time-split 0.416 vs 0.423 — inside the measurement noise, so this radar is a nominal pass on the numbers, not a proven upgrade.</p>
+  <p class="body" id="foot-meta"></p>
+</footer>
+
+<dialog id="detail"></dialog>
+<script src="../data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
